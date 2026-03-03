@@ -1,0 +1,61 @@
+/* Estilo geral da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 20px;
+}
+
+/* Centralizando e dando forma ao formulário */
+form {
+    background-color: #ffffff;
+    max-width: 600px;
+    margin: 0 auto; /* Centraliza o formulário na tela */
+    padding: 20px;
+    border-radius: 8px; /* Arredonda as pontas da caixa */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cria uma sombra suave */
+}
+
+/* Estilizando os blocos (fieldset) */
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* Estilizando os campos de digitar texto e o select */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select,
+textarea {
+    width: 100%; /* Faz o campo ocupar todo o espaço */
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+}
+
+/* Estilizando o botão */
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #218838; /* Fica mais escuro quando passa o mouse */
+}
