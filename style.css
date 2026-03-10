@@ -59,3 +59,48 @@ button {
 button:hover {
     background-color: #218838; /* Fica mais escuro quando passa o mouse */
 }
+/* ==================================================== */
+/* 1. PADRÃO DESKTOP (Telas maiores que 1024px)         */
+/* O código que você já fez lá em cima no seu arquivo   */
+/* já serve como o padrão para o Desktop!               */
+/* Exemplo de como devem estar suas fontes e margens:   */
+/* ==================================================== */
+h1 {
+    font-size: 3rem; 
+    margin: 40px;
+}
+.container-principal {
+    display: flex;
+    flex-direction: row; /* Elementos lado a lado no PC */
+    padding: 40px;
+}
+
+
+/* ==================================================== */
+/* 2. BREAKPOINT PARA TABLET (Telas até 1024px)         */
+/* ==================================================== */
+@media screen and (max-width: 1024px) {
+    h1 {
+        font-size: 2.5rem; /* Diminui um pouco a fonte */
+        margin: 30px;      /* Reduz um pouco a margem */
+    }
+    .container-principal {
+        padding: 30px;
+    }
+}
+
+
+/* ==================================================== */
+/* 3. BREAKPOINT PARA MOBILE (Telas até 768px)          */
+/* ==================================================== */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem; /* Fonte bem menor para não quebrar no celular */
+        margin: 15px;      /* Margem menor para aproveitar espaço */
+    }
+    .container-principal {
+        padding: 15px;
+        display: flex;
+        flex-direction: column; /* Disposição: joga um elemento debaixo do outro */
+    }
+}
