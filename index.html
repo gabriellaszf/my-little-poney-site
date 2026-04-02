@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Little Pony - Fã Site</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f9f0ff; padding: 20px; }
+        header { color: #d0006f; text-align: center; }
+        main { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        input { padding: 8px; width: 70%; border-radius: 5px; border: 1px solid #ccc; }
+        button { padding: 8px; background-color: #d0006f; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #lista-ponies { margin-top: 20px; padding-top: 10px; border-top: 1px solid #eee; }
+    </style>
 </head>
 <body>
 
@@ -15,16 +23,19 @@
         <section>
             <h2>Cadastre seu Pônei</h2>
             <form id="meu-formulario">
-                <label>Nome do Pônei:</label>
-                <input type="text" id="nome-input" placeholder="Digite o nome aqui">
-                
-                <button type="button" id="btn-cadastrar">Cadastrar</button>
+                <label>Nome:</label>
+                <input type="text" id="nome-input" placeholder="Ex: Pinkie Pie">
+                <button type="button" id="btn-cadastrar">Salvar</button>
             </form>
             
-            <p id="mensagem-exibida"></p>
+            <div id="lista-ponies">
+                <strong>Pôneis na Coleção:</strong>
+                <p id="mensagem-exibida">Nenhum pônei cadastrado ainda.</p>
+            </div>
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="db.js"></script>
+    <script src="controller.js"></script>
 </body>
 </html>
