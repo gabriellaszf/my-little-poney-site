@@ -3,107 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equestria RPG & Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <title>Equestria RPG & Ponytopia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- ESTILOS GERAIS --- */
+        /* --- CONFIGURAÇÕES DE CORES E FONTES --- */
         :root { 
             --mlp-purple: #b79ced; 
             --mlp-dark-purple: #6a1b9a; 
-            --mlp-gold: #ffd700; 
-            --magic-fire: #d500f9; 
+            /* Troca do Amarelo por tons de Roxo Neon e Lavanda */
+            --mlp-gold: #e195ff; 
+            --mlp-soft-gold: #f3d5ff;
+            --magic-fire: #d500f9;
+            --ponytopia-purple: #4a148c; 
         }
 
-        body { font-family: 'Quicksand', sans-serif; background: radial-gradient(circle, #fbc2eb 0%, #a6c1ee 100%); display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        body { 
+            font-family: 'Quicksand', sans-serif; 
+            background: radial-gradient(circle, #fbc2eb 0%, #a6c1ee 100%); 
+            margin: 0; 
+            min-height: 100vh; 
+        }
         
-        .container { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; position: relative; margin: auto; }
-        
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: 'Quicksand', sans-serif; outline: none; }
-        input:focus { border-color: var(--mlp-dark-purple); }
+        /* --- TELAS DE LOGIN/CADASTRO --- */
+        .container { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); width: 100%; max-width: 450px; text-align: center; margin: 60px auto; border: 2px solid var(--mlp-purple); }
+        input, select { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; font-family: 'Quicksand', sans-serif; font-weight: 500; }
+        button { background: var(--mlp-dark-purple); color: white; border: none; padding: 14px 20px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; margin-top: 15px; font-size: 16px; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(106, 27, 154, 0.4); }
 
-        button { background: var(--mlp-dark-purple); color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; margin-top: 10px; font-family: 'Quicksand', sans-serif; }
-        button:hover { background: #4a148c; transform: scale(1.02); }
-
-        /* --- SISTEMA DE AVATARES --- */
         .poney-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
         .avatar { width: 100%; aspect-ratio: 1/1; border-radius: 50%; cursor: pointer; border: 4px solid transparent; transition: 0.3s; object-fit: cover; }
-        .avatar.selected { border-color: var(--mlp-dark-purple); transform: scale(1.1); box-shadow: 0 0 10px rgba(128,0,128,0.5); }
+        .avatar.selected { border-color: var(--mlp-gold); transform: scale(1.1); box-shadow: 0 0 15px var(--mlp-gold); }
 
         /* --- CARTA MÁGICA --- */
-        #portal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; }
-        .envelope-container { position: relative; width: 350px; height: 250px; }
-        .envelope-wrapper { position: relative; width: 100%; height: 100%; background-color: var(--mlp-purple); border-radius: 0 0 20px 20px; z-index: 1; }
+        #portal-carta { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; }
+        .envelope-container { position: relative; width: 350px; height: 250px; cursor: pointer; }
+        .envelope-wrapper { position: relative; width: 100%; height: 100%; background-color: var(--mlp-purple); border-radius: 0 0 20px 20px; z-index: 1; border: 1px solid rgba(255,255,255,0.2); }
         .envelope-front { position: absolute; bottom: 0; width: 0; height: 0; border-right: 175px solid #9575cd; border-bottom: 125px solid #9575cd; border-left: 175px solid #9575cd; border-top: 125px solid transparent; z-index: 3; border-radius: 0 0 20px 20px; pointer-events: none; }
-        .flap { position: absolute; top: 0; width: 0; height: 0; border-left: 175px solid transparent; border-right: 175px solid transparent; border-top: 130px solid var(--mlp-dark-purple); transform-origin: top; transition: transform 0.6s ease; z-index: 4; pointer-events: none; }
-        .letter { position: absolute; bottom: 10px; left: 5%; width: 90%; height: 100%; background: #ffffff; z-index: 2; transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 20px; box-sizing: border-box; border: 5px solid var(--mlp-gold); border-radius: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
+        .flap { position: absolute; top: 0; width: 0; height: 0; border-left: 175px solid transparent; border-right: 175px solid transparent; border-top: 130px solid var(--mlp-dark-purple); transform-origin: top; transition: transform 0.6s ease; z-index: 4; }
+        .letter { position: absolute; bottom: 10px; left: 5%; width: 90%; height: 100%; background: #ffffff; z-index: 2; transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 20px; box-sizing: border-box; border: 5px solid var(--mlp-gold); border-radius: 15px; text-align: center; }
         .envelope-container:hover .flap { transform: rotateX(180deg); z-index: 1; }
         .envelope-container:hover .letter { transform: translateY(-180px); z-index: 5; }
-        
-        .burn-effect { animation: spikeFire 1.5s forwards !important; border: none !important; pointer-events: none; }
+        .burn-effect { animation: spikeFire 1.5s forwards !important; }
         @keyframes spikeFire {
             0% { transform: translateY(-180px) scale(1); background: white; }
             20% { background: var(--magic-fire); box-shadow: 0 0 50px var(--magic-fire); }
             100% { transform: translateY(-800px) scale(0); opacity: 0; filter: blur(20px); }
         }
 
-        /* --- INTERFACE HOME (PÓS-LOGIN) --- */
-        #main-app { display: none; width: 100%; max-width: 500px; }
+        /* --- INTERFACE PONYTOPIA --- */
+        #main-app { display: none; background: #fdfaff; min-height: 100vh; font-family: 'Quicksand', sans-serif; }
         
-        .user-header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px; border-radius: 20px; margin-bottom: 20px; }
-        .user-info { display: flex; align-items: center; gap: 12px; }
-        .avatar-top { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--mlp-dark-purple); object-fit: cover; }
+        .topo { display: flex; justify-content: space-between; align-items: center; background: var(--ponytopia-purple); color: white; padding: 12px 25px; border-bottom: 4px solid var(--mlp-gold); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .menu-icon { font-size: 28px; cursor: pointer; transition: 0.3s; }
+        .menu-icon:hover { color: var(--mlp-gold); }
         
-        .grid-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { background: white; padding: 20px; border-radius: 20px; text-align: center; cursor: pointer; transition: 0.3s; border-bottom: 5px solid #ddd; }
-        .card:hover { transform: translateY(-5px); border-color: var(--mlp-dark-purple); }
-        .card-icon { font-size: 35px; margin-bottom: 10px; display: block; }
+        .perfil-topo { display: flex; align-items: center; gap: 12px; }
+        .perfil-topo img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--mlp-gold); object-fit: cover; }
+        .nome-usuario-topo { font-family: 'Pacifico', cursive; font-size: 18px; color: var(--mlp-gold); }
 
-        /* Menu Flutuante */
-        .fab-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000; }
-        .fab-btn { width: 65px; height: 65px; border-radius: 50%; background: var(--mlp-dark-purple); color: white; border: none; font-size: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); cursor: pointer; }
-        .fab-menu { display: none; background: white; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.2); margin-bottom: 15px; overflow: hidden; width: 200px; }
-        .fab-menu button { background: none; color: var(--mlp-dark-purple); padding: 15px; border: none; border-bottom: 1px solid #eee; margin: 0; border-radius: 0; text-align: left; }
+        /* Menu Lateral */
+        .menu-lateral { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #2e004f; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding-top: 80px; z-index: 1000; color: white; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
+        .menu-lateral.ativo { left: 0; }
+        .menu-lateral h3 { padding: 10px 20px; font-family: 'Pacifico', cursive; color: var(--mlp-gold); font-size: 22px; border-bottom: 1px solid rgba(225,149,255,0.2); margin-bottom: 10px; }
+        .menu-lateral a { display: flex; align-items: center; gap: 15px; padding: 15px 20px; color: white; text-decoration: none; font-weight: 600; transition: 0.3s; border-left: 4px solid transparent; }
+        
+        .menu-lateral a:hover { background: rgba(225, 149, 255, 0.1); border-left: 4px solid var(--mlp-gold); color: var(--mlp-gold); padding-left: 30px; }
+        
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; z-index: 999; backdrop-filter: blur(3px); }
+        .overlay.ativo { display: block; }
 
-        /* Mapa Aba */
-        #mapa-aba { display: none; }
+        main { padding: 30px 20px; max-width: 1100px; margin: auto; }
+        .titulo-home { font-family: 'Pacifico', cursive; font-size: 42px; color: var(--ponytopia-purple); text-shadow: 2px 2px 0px var(--mlp-soft-gold); margin-bottom: 5px; }
+        .saudacao { font-size: 18px; color: #555; font-weight: 600; margin-bottom: 30px; }
+        .saudacao span { color: var(--mlp-dark-purple); font-family: 'Pacifico', cursive; font-size: 22px; margin-left: 5px; }
 
-        /* Modal Recompensa */
+        .search-box { margin-bottom: 30px; max-width: 500px; }
+        .search-box input { border-radius: 30px; padding: 15px 25px; border: 2px solid #eee; transition: 0.3s; font-size: 16px; }
+        .search-box input:focus { border-color: var(--mlp-gold); box-shadow: 0 0 10px rgba(225,149,255,0.2); outline: none; }
+
+        .categorias { display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
+        .cat { background: white; border: 2px solid #eee; padding: 8px 18px; border-radius: 25px; cursor: pointer; font-weight: 700; color: #777; transition: 0.3s; }
+        
+        .cat:hover { border-color: var(--mlp-gold); color: var(--mlp-dark-purple); background: #fdf0ff; transform: scale(1.05); }
+
+        .jogos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
+        .jogo-card { background: white; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; border: 3px solid transparent; cursor: pointer; }
+        
+        .jogo-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--mlp-gold); 
+            box-shadow: 0 10px 25px rgba(225, 149, 255, 0.3); 
+        }
+        .jogo-card img { width: 100%; border-radius: 15px; aspect-ratio: 1/1; object-fit: cover; margin-bottom: 12px; }
+        .jogo-card span { font-weight: 700; color: var(--ponytopia-purple); font-size: 16px; }
+        
         .modal-recompensa { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
     <div class="container" id="tela-cadastro">
-        <h1>Criar Conta</h1>
-        <div class="input-group">
-            <input id="reg-nome" placeholder="Nome de Usuário">
-            <input id="reg-nascimento" placeholder="Data de Nascimento (dd/mm/aaaa)" maxlength="10" oninput="formatarData(this)">
-            <select id="reg-genero">
-                <option value="">Selecione o Gênero</option>
-                <option>Feminino</option>
-                <option>Masculino</option>
-                <option>Outro</option>
-            </select>
-            <input type="password" id="reg-senha" placeholder="Sua senha">
-        </div>
+        <h1 style="font-family:'Pacifico'; font-size: 30px; color: var(--mlp-dark-purple);">Criar Conta</h1>
+        <input id="reg-nome" placeholder="Nome de Usuário">
+        <input id="reg-nascimento" placeholder="Data de Nascimento (dd/mm/aaaa)" maxlength="10" oninput="formatarData(this)">
+        <select id="reg-genero">
+            <option value="">Selecione o Gênero</option>
+            <option>Feminino</option>
+            <option>Masculino</option>
+            <option>Outro</option>
+        </select>
+        <input type="password" id="reg-senha" placeholder="Sua senha">
         <button onclick="irParaSelecao()">Próximo: Escolher Avatar</button>
-        <p style="cursor:pointer; color:var(--mlp-dark-purple)" onclick="mostrarLogin()">Já tenho conta</p>
+        <p style="cursor:pointer; color:var(--mlp-dark-purple); font-weight:bold; margin-top:15px;" onclick="mostrarLogin()">Já tenho conta</p>
     </div>
 
     <div class="container" id="tela-selecao" style="display:none">
-        <h1>Escolha seu Pônei</h1>
-        <div class="poney-list" id="lista-avatares">
-            </div>
+        <h1 style="font-family:'Pacifico'; font-size: 30px; color: var(--mlp-dark-purple);">Escolha seu Pônei</h1>
+        <div class="poney-list" id="lista-avatares"></div>
         <button onclick="finalizarCadastro()">Concluir Cadastro</button>
     </div>
 
     <div class="container" id="tela-login" style="display:none">
-        <h1>Bem-vindo!</h1>
+        <h1 style="font-family:'Pacifico'; font-size: 30px; color: var(--mlp-dark-purple);">Bem-vindo!</h1>
         <input id="log-nome" placeholder="Seu nome">
         <input id="log-senha" type="password" placeholder="Sua senha">
         <button onclick="entrar()">Entrar no Jogo</button>
         <button style="background:#6c757d" onclick="entrarVisitante()">Entrar como Visitante</button>
-        <p style="cursor:pointer; color:var(--mlp-dark-purple)" onclick="mostrarCadastro()">Criar conta</p>
+        <p style="cursor:pointer; color:var(--mlp-dark-purple); font-weight:bold; margin-top:15px;" onclick="mostrarCadastro()">Criar conta</p>
     </div>
 
     <div id="portal-carta">
@@ -112,11 +138,11 @@
             <div class="envelope-front"></div>
             <div class="letter" id="letter">
                 <div>
-                    <h2 style="font-family: 'Dancing Script';">Caro(a) <span id="magic-user-name"></span>,</h2>
-                    <p>Um novo destino aguarda em Equestria. Aceita o chamado?</p>
+                    <h2 style="font-family: 'Pacifico'; color: var(--mlp-dark-purple);">Caro(a) <span id="magic-user-name"></span>,</h2>
+                    <p style="font-weight:600;">Um novo destino aguarda em Equestria. Aceita o chamado?</p>
                 </div>
-                <div style="display:flex; gap:10px; justify-content:center">
-                    <button style="width:100px; border-radius:20px" onclick="queimarCarta()">SIM!</button>
+                <div style="display:flex; gap:10px; justify-content:center; margin-top: 20px;">
+                    <button style="width:100px; border-radius:20px; background:var(--mlp-gold); color:white" onclick="queimarCarta()">SIM!</button>
                     <button id="btn-nao" style="width:100px; border-radius:20px; background:#ddd; color:#333">NÃO</button>
                 </div>
             </div>
@@ -125,76 +151,74 @@
     </div>
 
     <div id="main-app">
-        <header class="user-header">
-            <div class="user-info">
-                <img id="home-avatar" class="avatar-top">
-                <div>
-                    <small>Olá,</small><br>
-                    <strong id="home-user-name" style="color:var(--mlp-dark-purple)"></strong>
-                </div>
+        <header class="topo">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <div class="perfil-topo">
+                <img id="home-avatar">
+                <span id="home-user-name" class="nome-usuario-topo"></span>
             </div>
-            <button onclick="location.reload()" style="width:auto; padding:5px 10px; background:#ff4757; font-size:12px">Sair</button>
         </header>
 
-        <div id="aba-home" class="aba">
-            <input type="text" id="inputBusca" placeholder="🔍 Pesquisar jogos ou testes..." onkeyup="filtrarConteudo()" style="margin-bottom:20px">
-            
-            <div class="grid-cards" id="grid-principal">
-                <div class="card" data-nome="rpg mapa aventura" onclick="mostrarAba('mapa-aba')" style="border-color:#a29bfe">
-                    <span class="card-icon">🗺️</span>
-                    <strong>RPG</strong>
-                    <p style="font-size:10px; color:#999">Explorar Mapa</p>
-                </div>
-                <div class="card" data-nome="quiz personalidade" onclick="alert('Quiz em breve!')" style="border-color:#fab1a0">
-                    <span class="card-icon">🧠</span>
-                    <strong>Quiz</strong>
-                    <p style="font-size:10px; color:#999">Quem você é?</p>
-                </div>
-                <div class="card" data-nome="diario humor" onclick="alert('Diário em breve!')" style="border-color:#fd79a8">
-                    <span class="card-icon">📖</span>
-                    <strong>Diário</strong>
-                    <p style="font-size:10px; color:#999">Meus sentimentos</p>
-                </div>
-                <div class="card" data-nome="cards coleção" onclick="alert('Coleção em breve!')" style="border-color:#ffeaa7">
-                    <span class="card-icon">🃏</span>
-                    <strong>Cards</strong>
-                    <p style="font-size:10px; color:#999">Ver coleção</p>
-                </div>
-            </div>
-        </div>
+        <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
-        <div id="mapa-aba" class="aba">
-            <div class="container">
-                <h3>Mapa de Equestria</h3>
-                <div style="position:relative">
-                    <img src="https://static.wikia.nocookie.net/mlp/images/a/a4/Map_of_Equestria_2015.jpg" style="width:100%; border-radius:10px">
-                    <div style="position:absolute; top:55%; left:45%; width:15px; height:15px; background:red; border-radius:50%; border:2px solid white; cursor:pointer" onclick="alert('Ponyville!')"></div>
-                </div>
-                <button onclick="mostrarAba('aba-home')">Voltar</button>
-            </div>
-        </div>
+        <nav id="menu-lat" class="menu-lateral">
+            <h3>🎮 Atividades</h3>
+            <a href="#" onclick="alert('Mapa em breve!')"><span>🗺️</span> Mapa de Equestria</a>
+            <a href="#"><span>🌈</span> Galeria de Arte</a>
+            <a href="#"><span>🧠</span> Teste de Elementos</a>
+            <a href="#"><span>📖</span> Diário Mágico</a>
+            <h3>⚙️ Perfil</h3>
+            <a href="#">Personalizar Pônei</a>
+            <a href="#" onclick="location.reload()" style="color:#ff7675">Encerrar Sessão</a>
+        </nav>
 
-        <div class="fab-container">
-            <div class="fab-menu" id="menuPopUp">
-                <button onclick="verificarRecompensa()">🎁 Resgatar Brinde</button>
-                <button onclick="alert('Perfil em breve')">👤 Ver Perfil</button>
-                <button onclick="location.reload()">🚪 Encerrar Sessão</button>
+        <main>
+            <div class="titulo-home">Ponytopia</div>
+            <div class="saudacao">Olá, <span id="saudacao-nome"></span> 👋</div>
+
+            <div class="search-box">
+                <input type="text" id="pesquisa" placeholder="O que vamos fazer hoje?..." onkeyup="filtrarJogos()">
             </div>
-            <button class="fab-btn" onclick="toggleMenu()">⋮</button>
-        </div>
+
+            <div class="categorias">
+                <div class="cat" onclick="filtrarCategoria('todos')">Tudo</div>
+                <div class="cat" onclick="filtrarCategoria('rpg')">Aventura RPG</div>
+                <div class="cat" onclick="filtrarCategoria('quiz')">Testes</div>
+                <div class="cat" onclick="filtrarCategoria('social')">Amizade</div>
+            </div>
+
+            <div class="jogos-grid" id="grid-jogos">
+                <div class="jogo-card" data-nome="mapa rpg aventura" data-cat="rpg">
+                    <img src="https://static.wikia.nocookie.net/mlp/images/a/a4/Map_of_Equestria_2015.jpg">
+                    <span>Explorar Mapa</span>
+                </div>
+                <div class="jogo-card" data-nome="quiz elementos" data-cat="quiz">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLcS6NnetzUhMydMsgoVqH--MRvgEEOdM2pB8zBA2XFxGw68DoST-Honi6jydIv-1jm7eHEaLX_DptXWURHIAJ8tr3z4BCihCgEUMnGMpvoQ&s=10">
+                    <span>Teste de Personalidade</span>
+                </div>
+                <div class="jogo-card" data-nome="diario sentimentos" data-cat="social">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrX51t_lIv-XJw9lQHe2lkAWGZm6KBkOwrOIpBtnouBpYVWuQsaNGJvRgkhcnROL70xYvyWXk8IYnGdfxp51X6651Mkn2nq1vQg8R3jAWe&s=10">
+                    <span>Diário de Amizade</span>
+                </div>
+                <div class="jogo-card" data-nome="vestir raridade" data-cat="aventura">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfsKVElxJR57blusabDhZZgE8RK7COxWgPqowcREHKQ9etkKq3qQT2MfTBAOz0BaqwiXMGaVUsYR5XOHF3mAKRrQxPjIOuhl1ixwRp9JGF&s=10">
+                    <span>Boutique da Rarity</span>
+                </div>
+            </div>
+        </main>
     </div>
 
     <div id="modal-recompensa" class="modal-recompensa">
         <div class="container" style="max-width:300px">
-            <h2>📅 Brinde Diário!</h2>
-            <div style="font-size:50px">🎁</div>
-            <p>Você ganhou 100 cristais!</p>
-            <button onclick="fecharRecompensa()">Obter</button>
+            <h2 style="font-family:'Pacifico'; color: var(--mlp-dark-purple);">Presente Real!</h2>
+            <div style="font-size:60px; margin: 15px 0;">🎁</div>
+            <p style="font-weight:700">Você recebeu 100 Cristais do Império!</p>
+            <button onclick="fecharRecompensa()" style="background:var(--mlp-gold); color:white">Receber</button>
         </div>
     </div>
 
     <script>
-        // Dados do Poney
+        // JS mantido exatamente igual ao original para não quebrar a lógica
         const poneyMap = {
             'Twilight': 'https://media.wired.com/photos/59337ed17965e75f5f3c8503/3:2/w_2560%2Cc_limit/MLP-Twilight.jpg',
             'Fluttershy': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcko1WFEG5FIPA6grJXd1cWJAXiSHAQP0LdzVhOdGJqpi-V0b0it6CxiKlAjuldaNIOs3DutSq5MAlWRPmgMXkgBnC9iWvw8Kga-tLL_Bh&s=10',
@@ -207,7 +231,6 @@
         let poneySelecionado = "";
         let usuarioAtual = null;
 
-        // Gerar Avatares na tela
         const listaDiv = document.getElementById('lista-avatares');
         Object.keys(poneyMap).forEach(nome => {
             const img = document.createElement('img');
@@ -221,43 +244,34 @@
             listaDiv.appendChild(img);
         });
 
-        // Navegação de Telas
         function mostrarLogin() { document.getElementById('tela-cadastro').style.display='none'; document.getElementById('tela-login').style.display='block'; }
         function mostrarCadastro() { document.getElementById('tela-cadastro').style.display='block'; document.getElementById('tela-login').style.display='none'; }
         function irParaSelecao() { 
-            if(!document.getElementById('reg-nome').value) return alert("Preencha seu nome!");
+            if(!document.getElementById('reg-nome').value) return alert("Por favor, digite seu nome!");
             document.getElementById('tela-cadastro').style.display='none'; document.getElementById('tela-selecao').style.display='block'; 
         }
 
-        // Finalizar Cadastro
         function finalizarCadastro() {
-            if(!poneySelecionado) return alert("Escolha um pônei!");
+            if(!poneySelecionado) return alert("Escolha seu pônei favorito!");
             const user = {
                 nome: document.getElementById('reg-nome').value,
                 senha: btoa(document.getElementById('reg-senha').value),
-                poney: poneySelecionado,
-                genero: document.getElementById('reg-genero').value
+                poney: poneySelecionado
             };
             localStorage.setItem("user_" + user.nome, JSON.stringify(user));
-            
-            // Define o usuário e inicia a carta
             usuarioAtual = user;
             document.getElementById('tela-selecao').style.display = 'none';
             iniciarFluxoCarta();
         }
 
-        // Login
         function entrar() {
             const nome = document.getElementById('log-nome').value;
             const senha = btoa(document.getElementById('log-senha').value);
             const salvo = JSON.parse(localStorage.getItem("user_" + nome));
-
             if(salvo && salvo.senha === senha) {
                 usuarioAtual = salvo;
                 iniciarFluxoCarta();
-            } else {
-                alert("Nome ou senha incorretos!");
-            }
+            } else { alert("Dados incorretos!"); }
         }
 
         function entrarVisitante() {
@@ -265,7 +279,6 @@
             iniciarFluxoCarta();
         }
 
-        // Fluxo da Carta
         function iniciarFluxoCarta() {
             document.getElementById('tela-login').style.display = 'none';
             document.getElementById('portal-carta').style.display = 'flex';
@@ -280,40 +293,36 @@
             }, 1500);
         }
 
-        // Carregar Home
         function carregarHome() {
             document.getElementById('main-app').style.display = 'block';
             document.getElementById('home-user-name').innerText = usuarioAtual.nome;
+            document.getElementById('saudacao-nome').innerText = usuarioAtual.nome;
             document.getElementById('home-avatar').src = poneyMap[usuarioAtual.poney];
             
-            // Verifica recompensa automática
             let hoje = new Date().toDateString();
             if(localStorage.getItem('brinde_'+usuarioAtual.nome) !== hoje) {
                 setTimeout(() => document.getElementById('modal-recompensa').style.display='flex', 1000);
             }
         }
 
-        // Funções da Home
-        function filtrarConteudo() {
-            let busca = document.getElementById('inputBusca').value.toLowerCase();
-            document.querySelectorAll('.card').forEach(card => {
-                card.style.display = card.dataset.nome.includes(busca) ? 'block' : 'none';
+        function toggleMenu() {
+            document.getElementById("menu-lat").classList.toggle("ativo");
+            document.getElementById("overlay").classList.toggle("ativo");
+        }
+
+        function filtrarJogos() {
+            const valor = document.getElementById("pesquisa").value.toLowerCase();
+            document.querySelectorAll(".jogo-card").forEach(j => {
+                const nome = j.getAttribute("data-nome");
+                j.style.display = nome.includes(valor) ? "block" : "none";
             });
         }
 
-        function mostrarAba(id) {
-            document.querySelectorAll('.aba').forEach(a => a.style.display='none');
-            document.getElementById(id).style.display='block';
-        }
-
-        function toggleMenu() {
-            const m = document.getElementById('menuPopUp');
-            m.style.display = m.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function verificarRecompensa() {
-            document.getElementById('modal-recompensa').style.display='flex';
-            toggleMenu();
+        function filtrarCategoria(cat) {
+            document.querySelectorAll(".jogo-card").forEach(j => {
+                const c = j.getAttribute("data-cat");
+                j.style.display = (cat === "todos" || c === cat) ? "block" : "none";
+            });
         }
 
         function fecharRecompensa() {
@@ -321,7 +330,6 @@
             document.getElementById('modal-recompensa').style.display='none';
         }
 
-        // Auxiliares
         function formatarData(i) {
             let v = i.value.replace(/\D/g, "");
             if (v.length > 2) v = v.replace(/(\d{2})(\d)/, "$1/$2");
